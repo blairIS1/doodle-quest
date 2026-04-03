@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "voices": "./generate-voices.sh"
+    "voices": "./generate-voices.sh",
+    "test": "npx playwright test"
   },
   "dependencies": {
     "next": "^15.3.1",
@@ -13,11 +14,12 @@
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "@tailwindcss/postcss": "^4.1.4",
-    "tailwindcss": "^4.1.4",
-    "typescript": "^5.8.3",
     "@types/node": "^22.14.1",
     "@types/react": "^19.1.2",
-    "@types/react-dom": "^19.1.2"
+    "@types/react-dom": "^19.1.2",
+    "tailwindcss": "^4.1.4",
+    "typescript": "^5.8.3"
   }
 }

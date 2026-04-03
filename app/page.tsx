@@ -7,7 +7,7 @@ import ArtShow from "./quests/ArtShow";
 import DottieBuddy from "./quests/DottieBuddy";
 import Confetti from "./quests/Confetti";
 import SessionTimer, { useSessionTimer } from "./quests/SessionTimer";
-import SpeakingIndicator from "./quests/SpeakingIndicator";
+import { useSpeaking } from "./quests/SpeakingIndicator";
 import { sfxTap, sfxCelebrate } from "./quests/sfx";
 import { speak, stopSpeaking } from "./quests/speak";
 import { startMusic, stopMusic } from "./quests/music";
@@ -52,6 +52,7 @@ export default function Home() {
   }, []);
 
   const markDone = (i: number) => setCompleted((p) => { const n = [...p]; n[i] = true; return n; });
+  const talking = useSpeaking();
 
   const startingRef = useRef(false);
   const startGame = () => {
@@ -70,8 +71,7 @@ export default function Home() {
   if (phase === "start") {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-8 p-4 fade-in">
-        <SpeakingIndicator />
-        <DottieBuddy mood="idle" size={160} />
+        <DottieBuddy mood="idle" size={160} talking={talking} />
         <h1 className="text-3xl sm:text-5xl font-bold text-center">🖍️ Doodle Quest</h1>
         <p className="text-base sm:text-xl text-center opacity-80 max-w-2xl px-4">Draw pictures to teach Dottie the crayon how to see!</p>
         <button className="btn btn-primary text-xl sm:text-2xl px-8 py-4" onClick={startGame}>🎮 Start Drawing!</button>
@@ -84,9 +84,8 @@ export default function Home() {
     const phases: Phase[] = ["q1", "q2", "q3"];
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-6 p-4 fade-in">
-        <SpeakingIndicator />
         <Confetti active={completed.every(Boolean)} />
-        <DottieBuddy mood={completed.every(Boolean) ? "celebrate" : "idle"} size={140} />
+        <DottieBuddy mood={completed.every(Boolean) ? "celebrate" : "idle"} size={140} talking={talking} />
         <h1 className="text-3xl sm:text-4xl font-bold text-center">Doodle Quest!</h1>
         <p className="text-base sm:text-lg text-center opacity-70 max-w-md px-4">Collect all art tools by teaching Dottie to see!</p>
         <div className="flex gap-2 sm:gap-3 flex-wrap justify-center">
@@ -120,7 +119,6 @@ export default function Home() {
 
   return (
     <>
-      <SpeakingIndicator />
       {phase === "q1" && (
         <TeachDottie onComplete={(data) => {
           setTraining((prev) => {
